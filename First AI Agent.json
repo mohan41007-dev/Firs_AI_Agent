@@ -1,0 +1,213 @@
+{
+  "name": "First AI Agent",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        -384,
+        -176
+      ],
+      "id": "ccf4e03a-7906-436b-b4d4-25d04a34979e",
+      "name": "When chat message received",
+      "webhookId": "c1cf4628-75fa-49e5-8fb4-08e9ca86f179"
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "You are an AI email assistant inside an n8n workflow connected to the Gmail tool.\n\nYour task is to generate a professional birthday wish email that is ready to send via Gmail.\n\nInstructions:\n- Write short and concise emails (50–80 words)\n- Maintain a warm, professional, and human tone\n- Personalize using the recipient’s first name\n- Avoid spammy, salesy, or robotic language\n- Do not use emojis, hashtags, or special characters\n- Keep formatting clean and email-friendly\n- End with a polite closing\n\nInput Variables:\n- First Name: <name>\n- Company Name:<company>\n- Sender Name: <sendername>\n\nOutput Format:\n{\n  \"subject\": \"\",\n  \"body\": \"\"\n}\n\nExample:\n{\n  \"subject\": \"Happy Birthday, John!\",\n  \"body\": \"Hi John,\\n\\nWishing you a very happy birthday and a wonderful year ahead. Hope you have a great day celebrating with your family, friends, and colleagues.\\n\\nBest regards,\\nMohan\"\n}"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        -208,
+        -176
+      ],
+      "id": "d5cd1a5b-68a0-4252-b0ab-c2a87f223a41",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "gpt-4o-mini"
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.3,
+      "position": [
+        -320,
+        48
+      ],
+      "id": "c30787ce-fa95-4b66-8398-e7f174c6e637",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "tc4R7LmLkMZRmBew",
+          "name": "OpenAI account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        -144,
+        48
+      ],
+      "id": "bcd59d18-cafe-4a19-95f0-46352d5bb167",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "content": "This is perception - P ",
+        "height": 80,
+        "width": 150
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -176,
+        -304
+      ],
+      "id": "43029989-a836-451e-af45-acbe3e62f821",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "AI agent - ",
+        "height": 80,
+        "width": 150
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -464,
+        48
+      ],
+      "id": "41df0398-05a2-40ac-b1a5-a3b6b45e8a39",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "Action - A",
+        "height": 80,
+        "width": 150
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        160,
+        144
+      ],
+      "id": "a407d446-77d5-42fe-86da-aff2358da5a5",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "content": "Brain - B",
+        "height": 80,
+        "width": 150
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -176,
+        176
+      ],
+      "id": "1640c3cb-49a4-4644-aa31-150294b004e0",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('To', ``, 'string') }}",
+        "subject": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Subject', ``, 'string') }}",
+        "message": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Message', ``, 'string') }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmailTool",
+      "typeVersion": 2.2,
+      "position": [
+        -16,
+        80
+      ],
+      "id": "14c0bea4-dc29-4bfb-a1b5-c3e448eb2381",
+      "name": "Send a message in Gmail",
+      "webhookId": "6d373f02-91f3-4ac1-82aa-0718c2d4d518",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "DVxVXvBmwFAZyfPb",
+          "name": "Gmail account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message in Gmail": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "ea971c9b-7448-4125-9af8-c3fb1f3890e8",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "6db978b798bfc3751fc54ef47cdd474c4566e6b95451af585af1590bf319b27a"
+  },
+  "id": "xJNaS4SIVAgHMV73",
+  "tags": []
+}
